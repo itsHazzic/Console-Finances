@@ -86,3 +86,53 @@ var finances = [
 ['Jan-2017', 138230],
 ['Feb-2017', 671099]
 ];
+
+let average;
+let analysis;
+let months = finances.length;
+let total = 0;
+let change = 0;
+let net = 0;
+let netArray = [];
+let netChangeSum = 0;
+
+let least = ['', 9999999999999]; // Greatest Decrease in Profits
+let greatest = ['', 0]; // Greatest Increase in Profits Calc
+
+for (let index = 0; index < finances.length; index++) { // loop through all
+    for (let index2 = 0; index2 < finances[index].length; index2++){ // loop through again for the second part/column of array
+        if (typeof finances [index][index2] !== 'string'){
+            total += finances[index][index2];
+            change= finances[index][index2] - net;
+            net = finances[index][index2];
+            netArray.push(change);
+
+            if (change > greatest[1]) {
+                greatest = [finances[index][0], finances[index][1]];
+            }
+
+            if(change < least[1]) {
+                least = [finances[index][0], finances[index][1]];
+            }
+        }
+    }
+}
+
+for (let index = 0; index < netArray.length; index++) {
+    netChangeSum += netArray[index];
+}
+
+average = Math.round((netChangeSum / 86) * 100) /100;
+
+
+analysis = `
+Financial Analysis
+-------------------------
+Total Months: ${months}
+Total: $ ${total}
+Average Change: ${average}
+Greatest Increase in Profit: ${greatest[0]} $${greatest[1]}
+Greatest Decrease in Profit: ${least[0]} $${least[1]}
+`
+
+console.log(analysis);
